@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<script src="js/mui.js"></script>
+		<script type="text/javascript">mui.init()</script>
+		<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			function journalism(){
+				var thisURL = document.URL; 
+				var getval =thisURL.split('?')[1]; 
+				var showval= getval.split("=")[1];
+				var url = "https://news-at.zhihu.com/api/4/news/"+showval;
+				
+				mui.ajax(url,{
+					dataType:'json',
+					type:'get',
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						$("<link href="+data.css+" rel='stylesheet' />").appendTo("head");
+						var $body = data.body.substring(100);
+						$($body).appendTo("body");
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(type);
+					}
+				});
+				
+			}
+			$(function(){
+				journalism();
+			})
+		</script>
+	</body>
+
+</html>
